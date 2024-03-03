@@ -1,0 +1,28 @@
+.dashboard-container {
+    width: 350px;
+    height: 350px;
+    position: absolute;
+    top: 150px; 
+    left: 32px; 
+   
+}
+
+.dashboard-content {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 1px;
+    text-align: left;
+    color: white;
+}
+
+
+@media screen and (min-width: 768px) {
+    .dashboard-container {
+        width: 90%; 
+        max-width: 1024px; 
+        left: 50%; 
+        transform: translateX(-50%); 
+    }
+}

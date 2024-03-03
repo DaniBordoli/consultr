@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@500&display=swap');
+
+.header-container {
+    position: absolute;
+    top: 30px;
+    left: 32px;
+    width: 350px;
+    height: 55.82px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.person-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.person-image {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid;
+    display: flex;
+    margin-right: 15px;
+}
+
+.person-name {
+    height: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 19px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    color: white;
+}
+
+.pokemon-trainer {
+    margin-top: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    color: #FFFFFF6B;
+}
+
+.notification-icon {
+    margin-left: 10px;
+    color: white;
+}
+
+.notification-circle {
+  background: #FFFFFF12;
+    border-radius: 45%; 
+    padding: 8px; 
+}
+
+
+@media screen and (min-width: 768px) {
+    .header-container {
+        width: 90%; 
+        max-width: 1024px; 
+        left: 50%; 
+        transform: translateX(-50%);
+    }
+}
