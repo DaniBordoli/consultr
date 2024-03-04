@@ -1,45 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../styles/types.css';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "../styles/types.css";
 
-function Types() {
-    const [types, setTypes] = useState([]);
-    const [selectedType, setSelectedType] = useState(null);
+function Types({ onTypeSelect, toggleSort, isSorted }) {
+  const [types, setTypes] = useState([]);
+  const [selectedType, setSelectedType] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-    useEffect(() => {
-        const apiTypes = async () => {
-            try {
-                const response = await axios.get('https://pokeapi.co/api/v2/type');
-                setTypes(response.data.results.map(type => type.name));
-            } catch (error) {
-                console.error('ERROR:', error);
-            }
-        };
+  const typeListContainerRef = useRef(null);
 
-        apiTypes();
-    }, []);
+  useEffect(() => {
+    const apiTypes = async () => {
+      try {
+        const response = await axios.get("https://pokeapi.co/api/v2/type");
+        const typesData = response.data.results.map((type) => type.name);
+        setTypes(typesData);
 
-    const handleTypeClick = (type) => {
-        setSelectedType(type);
+        if (!selectedType) {
+          const normalType = typesData.find((type) => type === "normal");
+          if (normalType) {
+            setSelectedType(normalType);
+            onTypeSelect(normalType);
+          }
+        }
+      } catch (error) {
+        console.error("ERROR:", error);
+      }
     };
 
-    return (
-        <div className="types-container">
-            <div className="type-list-container">
-                <div className="type-list">
-                    {types.map((type, index) => (
-                        <div
-                            key={index}
-                            className={`type ${selectedType === type ? 'selected' : ''}`}
-                            onClick={() => handleTypeClick(type)}
-                        >
-                            {type}
-                        </div>
-                    ))}
-                </div>
+    apiTypes();
+  }, []);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const handleTypeClick = (typeName) => {
+    setSelectedType(typeName);
+    onTypeSelect(typeName);
+  };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - typeListContainerRef.current.offsetLeft);
+    setScrollLeft(typeListContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - typeListContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    typeListContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  return (
+    <div className="types-container">
+      <div
+        className="type-list-container"
+        ref={typeListContainerRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+      >
+        <div className="type-list">
+          {types.map((type, index) => (
+            <div
+              key={index}
+              className={`type ${selectedType === type ? "selected" : ""}`}
+              onClick={() => handleTypeClick(type)}
+            >
+              {capitalizeFirstLetter(type)}
             </div>
+          ))}
         </div>
-    );
+      </div>
+      <button onClick={toggleSort} className="order-button">
+        {isSorted ? "Desordenar" : "Ordenar Alfabéticamente"}
+      </button>
+    </div>
+  );
 }
 
 export default Types;
