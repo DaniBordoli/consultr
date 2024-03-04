@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import logo from "./logo.svg";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
@@ -19,10 +19,10 @@ function App() {
     setSearchTerm(term);
   };
 
-  const handleTypeSelect = (type) => {
+  const handleTypeSelect = useCallback((type) => {
     setSelectedType(type);
     setSearchTerm("");
-  };
+  }, []);
 
   const toggleSort = () => {
     setIsSorted(!isSorted);

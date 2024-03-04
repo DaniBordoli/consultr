@@ -8,7 +8,17 @@ import RectangleRed from "../assets/RectangleRed.svg";
 import ShadowCard from "../assets/ShadowCard.svg";
 import { IoIosSync } from "react-icons/io";
 
-function PokemonGrid({ searchTerm, selectedType, isSorted }) {
+interface PokemonGridProps {
+  searchTerm: string;
+  selectedType: string;
+  isSorted: boolean;
+}
+
+const PokemonGrid: React.FC<PokemonGridProps> = ({
+  searchTerm,
+  selectedType,
+  isSorted,
+}) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
@@ -161,6 +171,6 @@ function PokemonGrid({ searchTerm, selectedType, isSorted }) {
       )}
     </>
   );
-}
+};
 
 export default PokemonGrid;

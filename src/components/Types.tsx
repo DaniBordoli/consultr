@@ -31,7 +31,7 @@ function Types({ onTypeSelect, toggleSort, isSorted }) {
     };
 
     apiTypes();
-  }, []);
+  }, [onTypeSelect, selectedType]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
