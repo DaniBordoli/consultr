@@ -6,34 +6,34 @@ import Searchbar from "./components/Searchbar";
 import Types from "./components/Types";
 import PokemonGrid from "./components/PokemonGrid";
 
-function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedType, setSelectedType] = useState("normal");
-  const [isSorted, setIsSorted] = useState(false);
+const App: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("normal");
+  const [isSorted, setIsSorted] = useState<boolean>(false);
 
   useEffect(() => {
     setSelectedType("normal");
   }, []);
 
-  const handleSearch = (term) => {
+  const handleSearch = useCallback((term: string) => {
     setSearchTerm(term);
-  };
+  }, []);
 
-  const handleTypeSelect = useCallback((type) => {
+  const handleTypeSelect = useCallback((type: string) => {
     setSelectedType(type);
     setSearchTerm("");
   }, []);
 
-  const toggleSort = () => {
+  const toggleSort = useCallback(() => {
     setIsSorted(!isSorted);
-  };
+  }, [isSorted]);
 
   return (
     <div>
       <header>
         <Header />
       </header>
-      <Dashboard />
+      <Dashboard message={"Welcome to your trainer dashboard!"} />
       <Searchbar onSearch={handleSearch} searchTerm={searchTerm} />
       <Types
         onTypeSelect={handleTypeSelect}
@@ -47,6 +47,6 @@ function App() {
       />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,14 +1,16 @@
-import React from 'react';
-import '../styles/dashboard.css';
+import React from "react";
+import "../styles/dashboard.css";
 
-function Dashboard() {
+interface DashboardProps {
+  message: string;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ message }) => {
   return (
     <div className="dashboard-container">
-      <div className="dashboard-content">
-        Welcome to your trainer dashboard!
-      </div>
+      <div className="dashboard-content">{message}</div>
     </div>
   );
-}
+};
 
 export default Dashboard;

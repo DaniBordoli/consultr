@@ -2,7 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../styles/types.css";
 
-function Types({ onTypeSelect, toggleSort, isSorted }) {
+interface TypesProps {
+  onTypeSelect: (type: string) => void;
+  toggleSort: () => void;
+  isSorted: boolean;
+}
+
+const Types: React.FC<TypesProps> = ({
+  onTypeSelect,
+  toggleSort,
+  isSorted,
+}) => {
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -15,7 +25,9 @@ function Types({ onTypeSelect, toggleSort, isSorted }) {
     const apiTypes = async () => {
       try {
         const response = await axios.get("https://pokeapi.co/api/v2/type");
-        const typesData = response.data.results.map((type) => type.name);
+        const typesData: string[] = response.data.results.map(
+          (type: { name: string }) => type.name
+        );
         setTypes(typesData);
 
         if (!selectedType) {
@@ -33,16 +45,16 @@ function Types({ onTypeSelect, toggleSort, isSorted }) {
     apiTypes();
   }, [onTypeSelect, selectedType]);
 
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const handleTypeClick = (typeName) => {
+  const handleTypeClick = (typeName: string) => {
     setSelectedType(typeName);
     onTypeSelect(typeName);
   };
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setStartX(e.pageX - typeListContainerRef.current.offsetLeft);
     setScrollLeft(typeListContainerRef.current.scrollLeft);
@@ -91,6 +103,6 @@ function Types({ onTypeSelect, toggleSort, isSorted }) {
       </button>
     </div>
   );
-}
+};
 
 export default Types;
